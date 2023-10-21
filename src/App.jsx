@@ -39,32 +39,46 @@ function App() {
     let copyText = document.getElementById("copyText");
 
     copyText.select();
+    copyText.setSelectionRange(0, 99999);
 
-    navigator.clipboard.writeText(copyText.value);
+    navigator.clipboard
+      .writeText(copyText.value)
+      .then(() => {
+        alert("successfully copied")
+      })
+      .catch(() => {
+        alert("something went wrong")
+      });
 
   }
 
   return (
     <div className="app">
-        <h1 className="w-1/3 text-3xl">Password Generator</h1>
-      <div className="box w-1/3 bg-red-400">
+        <h1 className="text-lg md:text-3xl ">Password Generator</h1>
+      <div className="box w-5/6 md:w-3/5 lg:w-2/3 xl:w-1/2  bg-red-400">
         
         <div className="password mb-4">
-          <input type="text" placeholder="Your Password" value={password} id="copyText" className="p-3 w-72 rounded-sm" readOnly />
-          <button type="submit" onClick={copy} className="bg-slate-500 p-3 rounded-md text-white">Copy Password</button>
+          <input type="text" placeholder="Your Password" value={password} id="copyText" className="p-3 w-48 sm:w-72 rounded-sm" readOnly />
+          <button type="submit" onClick={copy} className="bg-slate-500 p-3 rounded-sm text-white">Copy</button>
         </div>
 
-        <div className="inputs mt-6">
-          <input type="range" max="25" min="6" className="mr-1" onChange={e => setLength(e.target.value)}/>
-          {/* show length of password */}
-          <label className="mr-3">{length}</label>
+        <div className="inputs mt-6 md:flex">
+          <div>
+            <input type="range" max="25" min="6" className="mr-1 block" onChange={e => setLength(e.target.value)}/>
+            <label className="mr-3">Length: {length}</label>
+          </div>
 
-          <input type="checkbox" 
-          onChange={e => setNumber(e.target.checked)} 
-          className="mr-1"/>
-          <label className="mr-3">Numbers</label>
-          <input type="checkbox" onChange={e => setSpecial(e.target.checked)} className="mr-1"/>
-          <label className="mr-3">Special Characters</label>
+          <div>
+            <input type="checkbox" 
+            onChange={e => setNumber(e.target.checked)} 
+            className="mr-1"/>
+            <label className="mr-3">Numbers</label>
+          </div>
+
+          <div>
+            <input type="checkbox" onChange={e => setSpecial(e.target.checked)} className="mr-1"/>
+            <label className="mr-3">Special Characters</label>
+          </div>
         </div>
       </div>
 
